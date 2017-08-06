@@ -12,6 +12,19 @@ module Telegram
         attribute :callback_query, CallbackQuery
         attribute :shipping_query, ShippingQuery
         attribute :pre_checkout_query, PreCheckoutQuery
+
+        def extract_message
+          types = %w(
+            inline_query
+            chosen_inline_result
+            callback_query
+            edited_message
+            message
+            channel_post
+            edited_channel_post
+          )
+          types.inject(nil) { |acc, elem| acc || public_send(elem) }
+        end
       end
     end
   end
